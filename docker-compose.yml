@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  whatsapp-api:
+    build: .
+    container_name: whatsapp-api
+    ports:
+      - "2026:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+      - ./requirements.txt:/app/requirements.txt
+    restart: unless-stopped 
