@@ -3,7 +3,7 @@ version: '3.8'
 services:
   whatsapp-api:
     build: .
-    container_name: whatsapp-api
+    container_name: whatsapp-api-myaso
     ports:
       - "2026:8000"
     env_file:
