@@ -14,10 +14,11 @@ class WhatsAppMessageRequest(BaseModel):
             raise ValueError('Recipient must be in international format, e.g., +1234567890')
         return v
 
-class WhatsAppImagesRequest(BaseModel):
+class WhatsAppFileRequest(BaseModel):
     recipient: str = Field(..., description="The phone number of the recipient in international format, e.g., +1234567890.")
-    image_url: HttpUrl = Field(..., description="List of image URLs to send.")
+    file_url: HttpUrl = Field(..., description="List of image URLs to send.")
     caption: Optional[str] = Field(None, description="Optional caption for the images.")
+    extension: str = Field(default='png', description="File extension" )
     
     @field_validator('recipient')
     @classmethod

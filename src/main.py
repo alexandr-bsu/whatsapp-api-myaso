@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from typing import List, Optional
 import requests
-from src.models.whatsapp_message import WhatsAppMessageRequest, WhatsAppImagesRequest
-from src.services.whatsapp_service import send_whatsapp_message, send_whatsapp_image
+from src.models.whatsapp_message import WhatsAppMessageRequest, WhatsAppFileRequest
+from src.services.whatsapp_service import send_whatsapp_message, send_whatsapp_file
 from src.controllers.webhook_controller import router as webhook_router
 from src.models.whatsapp_message import ResetConversationRequest
 
@@ -25,16 +25,16 @@ async def send_message(request: WhatsAppMessageRequest):
     return response
 
 
-@app.post("/sendImage", summary="Send multiple images to WhatsApp", response_description="Image sent successfully")
-async def send_images(request: WhatsAppImagesRequest):
+@app.post("/sendFile", summary="Send multiple images to WhatsApp", response_description="File sent successfully")
+async def send_images(request: WhatsAppFileRequest):
     """
-    Send multiple images to a WhatsApp recipient using image URLs.
+    Send multiple file to a WhatsApp recipient using image URLs.
     
     - **recipient**: Phone number in international format (e.g., +1234567890)
     - **image_urls**: List of image URLs to send
     - **caption**: Optional caption for the first image
     """
-    response = await send_whatsapp_image(request)
+    response = await send_whatsapp_file(request)
     return response
 
     

@@ -1,4 +1,4 @@
-from src.models.whatsapp_message import WhatsAppMessageRequest, WhatsAppImagesRequest
+from src.models.whatsapp_message import WhatsAppMessageRequest, WhatsAppFileRequest
 from fastapi import HTTPException, UploadFile
 from pydantic import HttpUrl
 import logging
@@ -40,13 +40,13 @@ async def send_whatsapp_message(request: WhatsAppMessageRequest) -> dict:
         raise HTTPException(status_code=500, detail="Internal server error while sending WhatsApp message.")
 
 
-async def send_whatsapp_image(request: WhatsAppImagesRequest) -> dict:
+async def send_whatsapp_file(request: WhatsAppFileRequest) -> dict:
     url = f"{settings.api_url}/waInstance{settings.id_instance}/sendFileByUrl/{settings.api_token_instance}"
 
     payload = {
     "chatId": f"{request.recipient.replace('+', '')}@c.us", 
-    "urlFile": str(request.image_url),  # Convert HttpUrl to string
-    "fileName": "photo.png" 
+    "urlFile": str(request.file_url),  # Convert HttpUrl to string
+    "fileName": "file."+request.extension 
     }
     
     if request.caption:
@@ -66,3 +66,4 @@ async def send_whatsapp_image(request: WhatsAppImagesRequest) -> dict:
     except Exception as exc:
         logging.error(f"Unexpected error: {exc}")
         raise HTTPException(status_code=500, detail="Internal server error while sending WhatsApp image.")
+
